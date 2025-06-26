@@ -6,8 +6,20 @@ metadata:
     app: mysql
 spec:
   containers:
-  - name: mysql
-    image: mysql
-    env:
-    - name: MYSQL_ROOT_PASSWORD
-      value: pw
+    - name: mysql
+      image: 746851085552.dkr.ecr.us-east-1.amazonaws.com/clo835-mysql:mysql
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: pw
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+  type: ClusterIP

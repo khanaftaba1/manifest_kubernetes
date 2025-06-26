@@ -6,18 +6,31 @@ metadata:
     app: employees
 spec:
   containers:
-  - name: app
-    image: 746851085552.dkr.ecr.us-east-1.amazonaws.com/clo835-myapp:myapp
-    ports:
-    - containerPort: 8080
-    env:
-    - name: DBHOST
-      value: mysql
-    - name: DBPORT
-      value: "3306"
-    - name: DBUSER
-      value: root
-    - name: DBPWD
-      value: pw
-    - name: DATABASE
-      value: employees
+    - name: app
+      image: 746851085552.dkr.ecr.us-east-1.amazonaws.com/clo835-myapp:myapp
+      ports:
+        - containerPort: 8080
+      env:
+        - name: DBHOST
+          value: mysql
+        - name: DBPORT
+          value: "3306"
+        - name: DBUSER
+          value: root
+        - name: DBPWD
+          value: pw
+        - name: DATABASE
+          value: employees
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: employees
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30000
+  type: NodePort
